@@ -1,0 +1,62 @@
+name: CRM CI/CD Project
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # # Optional: Install dependencies and build if needed
+      # - name: Install dependencies
+      #   run: npm install
+
+      # - name: Run tests and generate coverage (if using Jest)
+      #   run: npm run test -- --coverage
+        # Ensure this creates "coverage/lcov.info"
+
+      # --- SONARCLOUD ANALYSIS STEP START ---
+      - name: Set up Java (required by SonarCloud)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonarcloud
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=sumitchourey-cn
+            -Dsonar.organization=SumitChourey-CN
+            -Dsonar.sources=.
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # --- SONARCLOUD ANALYSIS STEP END ---
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync . s3://crm-cloudnexus --delete
