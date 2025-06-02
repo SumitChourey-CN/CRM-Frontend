@@ -43,8 +43,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2
         with:
           args: >
-            -Dsonar.projectKey=sumitchourey-cn
-            -Dsonar.organization=SumitChourey-CN
+            -Dsonar.projectKey=SumitChourey-CN_CRM-Frontend
+            -Dsonar.organization=sumitchourey-cn
             -Dsonar.sources=.
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
