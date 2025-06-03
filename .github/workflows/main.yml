@@ -18,15 +18,15 @@ jobs:
         with:
           node-version: '18'
 
-      # # Optional: Install dependencies and build if needed
+      # Optional: Install dependencies and build if needed
       # - name: Install dependencies
       #   run: npm install
 
       # - name: Run tests and generate coverage (if using Jest)
       #   run: npm run test -- --coverage
-        # Ensure this creates "coverage/lcov.info"
+      # Ensure this creates "coverage/lcov.info"
 
-        # ---------- FOSSA ----------
+      # ---------- FOSSA ----------
       - name: Set up FOSSA CLI
         run: curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
 
@@ -37,26 +37,21 @@ jobs:
         env:
           FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
 
-       # ---------- Snyk ---------- 
+      # ---------- Snyk ----------
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@v1
+        continue-on-error: true  # Optional: allow build to continue on Snyk failure
+        with:
+          command: test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-    - name: Run Snyk to check for vulnerabilities 
-
-      uses: snyk/actions/node@v1 
-
-      continue-on-error: true  # Optional: allow build to continue on Snyk failure 
-
-      with: 
-
-        command: test 
-
-      env: 
-
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
-      #---------Stackhawk----------------------
+      # ---------- StackHawk ----------
       - name: Run StackHawk Scan
         uses: stackhawk/hawkscan-action@v1
         with:
           apiKey: ${{ secrets.STACKHAWK_API_KEY }}
+
       # --- SONARCLOUD ANALYSIS STEP START ---
       - name: Set up Java (required by SonarCloud)
         uses: actions/setup-java@v3
@@ -80,14 +75,14 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      # # --- SONARCLOUD ANALYSIS STEP END ---
+      # --- SONARCLOUD ANALYSIS STEP END ---
 
       # - name: Configure AWS Credentials
       #   uses: aws-actions/configure-aws-credentials@v1
       #   with:
       #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # aws-region: ap-south-1
+      #     aws-region: ap-south-1
 
       # - name: Deploy static site to S3 bucket
       #   run: aws s3 sync . s3://crm-cloudnexus --delete
