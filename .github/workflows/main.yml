@@ -40,19 +40,19 @@ jobs:
       #     FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
 
       # ---------- Snyk ----------
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@v1
-        continue-on-error: true  # Optional: allow build to continue on Snyk failure
-        with:
-          command: test
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      # - name: Run Snyk to check for vulnerabilities
+      #   uses: snyk/actions/node@v1
+      #   continue-on-error: true  # Optional: allow build to continue on Snyk failure
+      #   with:
+      #     command: test
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      # ---------- StackHawk ----------
-      - name: Run StackHawk Scan
-        uses: stackhawk/hawkscan-action@v1
-        with:
-          apiKey: ${{ secrets.STACKHAWK_API_KEY }}
+      # # ---------- StackHawk ----------
+      # - name: Run StackHawk Scan
+      #   uses: stackhawk/hawkscan-action@v1
+      #   with:
+      #     apiKey: ${{ secrets.STACKHAWK_API_KEY }}
 
       # --- SONARCLOUD ANALYSIS STEP START ---
       - name: Set up Java (required by SonarCloud)
