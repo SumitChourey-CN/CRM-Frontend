@@ -27,10 +27,10 @@ jobs:
       # Ensure this creates "coverage/lcov.info"
 
       # ---------- FOSSA ----------
-      - name: Set up FOSSA CLI
+      - name: Set up FOSSA CLI v3
         run: |
-          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
-
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash
+          echo "$HOME/.fossa/bin" >> $GITHUB_PATH
 
       - name: Run FOSSA Scan
         run: |
