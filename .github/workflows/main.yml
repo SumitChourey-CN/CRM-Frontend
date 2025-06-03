@@ -27,17 +27,17 @@ jobs:
       # Ensure this creates "coverage/lcov.info"
 
       # ---------- FOSSA ----------
-      # - name: Set up FOSSA CLI v3
-      #   run: |
-      #     curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash
-      #     echo "$HOME/.fossa/bin" >> $GITHUB_PATH
+      - name: Set up FOSSA CLI v3
+        run: |
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash
+          echo "$HOME/.fossa/bin" >> $GITHUB_PATH
 
-      # - name: Run FOSSA Scan (Full Access)
-      #   run: |
-      #     fossa analyze
-      #     fossa test
-      #   env:
-      #     FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+      - name: Run FOSSA Scan (Full Access)
+        run: |
+          fossa analyze
+          fossa test
+        env:
+          FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
 
 
       # ---------- Snyk ----------
@@ -49,12 +49,12 @@ jobs:
       #   env:
       #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      # ---------- StackHawk ----------
-      - name: Run StackHawk Scan
-        uses: stackhawk/hawkscan-action@v2
-        with:
-          apiKey: ${{ secrets.STACKHAWK_API_KEY }}
-          applicationId: 9a084eae-b00e-443a-8a0a-7e095fc9f52a
+      # # ---------- StackHawk ----------
+      # - name: Run StackHawk Scan
+      #   uses: stackhawk/hawkscan-action@v2
+      #   with:
+      #     apiKey: ${{ secrets.STACKHAWK_API_KEY }}
+      #     applicationId: 9a084eae-b00e-443a-8a0a-7e095fc9f52a
 
 
       # --- SONARCLOUD ANALYSIS STEP START ---
