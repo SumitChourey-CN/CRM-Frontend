@@ -40,10 +40,12 @@ jobs:
           FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
         continue-on-error: true
 
-
+      
       # ---------- Snyk ----------
+    
+        
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@v2
+        uses: snyk/actions/node@v1
         continue-on-error: true  # Optional: allow build to continue on Snyk failure
         with:
           command: test
