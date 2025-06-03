@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
- 
 
 jobs:
   build:
@@ -18,15 +17,74 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
-      - name: Configure AWS Credentials
-        uses: aws-actions  /configure-aws-credentials@v1
+
+      # Optional: Install dependencies and build if needed
+      # - name: Install dependencies
+      #   run: npm install
+
+      # - name: Run tests and generate coverage (if using Jest)
+      #   run: npm run test -- --coverage
+      # Ensure this creates "coverage/lcov.info"
+
+      # ---------- FOSSA ----------
+      # - name: Set up FOSSA CLI
+      #   run: |
+      #     curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
+
+
+      # - name: Run FOSSA Scan
+      #   run: |
+      #     fossa analyze
+      #     fossa test
+      #   env:
+      #     FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+
+      # ---------- Snyk ----------
+      # - name: Run Snyk to check for vulnerabilities
+      #   uses: snyk/actions/node@v1
+      #   continue-on-error: true  # Optional: allow build to continue on Snyk failure
+      #   with:
+      #     command: test
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # # ---------- StackHawk ----------
+      # - name: Run StackHawk Scan
+      #   uses: stackhawk/hawkscan-action@v1
+      #   with:
+      #     apiKey: ${{ secrets.STACKHAWK_API_KEY }}
+
+      # --- SONARCLOUD ANALYSIS STEP START ---
+      - name: Set up Java (required by SonarCloud)
+        uses: actions/setup-java@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-          
-      - name: Deploy static site to S3 bucket
-        run: aws s3 sync . s3://crm-cloudnexus --delete
-        
-      
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonarcloud
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=SumitChourey-CN_CRM-Frontend
+            -Dsonar.organization=sumitchourey-cn
+            -Dsonar.sources=.
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # --- SONARCLOUD ANALYSIS STEP END ---
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ap-south-1
+
+      # - name: Deploy static site to S3 bucket
+      #   run: aws s3 sync . s3://crm-cloudnexus --delete
