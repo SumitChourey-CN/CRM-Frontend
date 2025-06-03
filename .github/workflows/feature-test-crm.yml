@@ -26,6 +26,18 @@ jobs:
       #   run: npm run test -- --coverage
         # Ensure this creates "coverage/lcov.info"
 
+        # ---------- FOSSA ----------
+      - name: Set up FOSSA CLI
+        run: curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
+
+      - name: Run FOSSA Scan
+        run: |
+          fossa analyze
+          fossa test
+        env:
+          FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+
+      
       # --- SONARCLOUD ANALYSIS STEP START ---
       - name: Set up Java (required by SonarCloud)
         uses: actions/setup-java@v3
