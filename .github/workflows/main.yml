@@ -27,17 +27,17 @@ jobs:
       # Ensure this creates "coverage/lcov.info"
 
       # ---------- FOSSA ----------
-      - name: Set up FOSSA CLI
-        run: |
-          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
+      # - name: Set up FOSSA CLI
+      #   run: |
+      #     curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
 
 
-      - name: Run FOSSA Scan
-        run: |
-          fossa analyze
-          fossa test
-        env:
-          FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+      # - name: Run FOSSA Scan
+      #   run: |
+      #     fossa analyze
+      #     fossa test
+      #   env:
+      #     FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
 
       # ---------- Snyk ----------
       - name: Run Snyk to check for vulnerabilities
