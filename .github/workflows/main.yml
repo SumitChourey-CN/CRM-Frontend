@@ -54,6 +54,8 @@ jobs:
         uses: stackhawk/hawkscan-action@v2
         with:
           apiKey: ${{ secrets.STACKHAWK_API_KEY }}
+          applicationId: 9a084eae-b00e-443a-8a0a-7e095fc9f52a
+
 
       # --- SONARCLOUD ANALYSIS STEP START ---
       - name: Set up Java (required by SonarCloud)
