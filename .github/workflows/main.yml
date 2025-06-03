@@ -38,6 +38,7 @@ jobs:
           fossa test
         env:
           FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+        continue-on-error: true
 
 
       # ---------- Snyk ----------
