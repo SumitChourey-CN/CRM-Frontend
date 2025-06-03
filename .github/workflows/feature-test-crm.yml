@@ -52,8 +52,11 @@ jobs:
       env: 
 
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
-
-  
+      #---------Stackhawk----------------------
+      - name: Run StackHawk Scan
+        uses: stackhawk/hawkscan-action@v1
+        with:
+          apiKey: ${{ secrets.STACKHAWK_API_KEY }}
       # --- SONARCLOUD ANALYSIS STEP START ---
       - name: Set up Java (required by SonarCloud)
         uses: actions/setup-java@v3
