@@ -45,7 +45,7 @@ jobs:
     
         
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@v1.13.0
+        uses: snyk/actions@master
         continue-on-error: true  # Optional: allow build to continue on Snyk failure
         with:
           command: test
