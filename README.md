@@ -1,4 +1,6 @@
 # README
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSumitChourey-CN%2FCRM-Frontend.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSumitChourey-CN%2FCRM-Frontend?ref=badge_shield)
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -27,3 +29,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Repo owner or admin
 - Other community or team contact
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSumitChourey-CN%2FCRM-Frontend.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSumitChourey-CN%2FCRM-Frontend?ref=badge_large)
